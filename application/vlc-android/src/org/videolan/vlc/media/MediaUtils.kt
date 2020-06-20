@@ -34,6 +34,7 @@ import org.videolan.tools.localBroadcastManager
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
@@ -114,6 +115,9 @@ object MediaUtils {
             context.let {
                 if (it is Activity) {
                     val text = context.resources.getQuantityString(R.plurals.tracks_appended, media.size, media.size)
+                    if (it is AudioPlayerContainerActivity) {
+                        Snackbar.make(it.appBarLayout, text, Snackbar.LENGTH_LONG).show()
+                    } else
                     Snackbar.make(it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }

@@ -4,7 +4,7 @@
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=168ae35b
+MEDIALIBRARY_HASH=0cd5d6c154513e7d5cf9daf49ac3e111e275af77
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -90,6 +90,7 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
   #    git checkout 0.5.x
   git submodule update --init libvlcpp
+  git reset --hard ${MEDIALIBRARY_HASH}
 else
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
   if ! git cat-file -e ${MEDIALIBRARY_HASH}; then
@@ -97,12 +98,6 @@ else
     rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
     rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
   fi
-fi
-if [ "$RELEASE" = "1" ]; then
-  git reset --hard ${MEDIALIBRARY_HASH}
-  # In case of VLC 4.0 build, we need this commit to fix the build, but we
-  # still don't want to change the HASH for that.
-  git cherry-pick bfb2ad6e8b34a62c482e3064e6e13751482b903f
 fi
 cd ${SRC_DIR}
 
